@@ -48,7 +48,7 @@ pipeline {
             steps {
                 script {
                     // Execute the Python script
-                    bat 'python employeeDict.py'  // Replace 'your-script.py' with your script filename
+                    bat 'employeeDict.py'  // Replace 'your-script.py' with your script filename
                 }
             }
         }
