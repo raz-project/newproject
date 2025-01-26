@@ -2,6 +2,23 @@ pipeline {
     agent any
 
     stages {
+               stage('Install Python') {
+            steps {
+                script {
+                    // For Windows, you can use PowerShell to install Python
+                    powershell '''
+                        # Check if Python is already installed
+                        if (-Not (Get-Command python -ErrorAction SilentlyContinue)) {
+                            Write-Host "Installing Python..."
+                            Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.9.6/python-3.9.6.exe -OutFile python-installer.exe
+                            Start-Process -FilePath python-installer.exe -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1" -NoNewWindow -Wait
+                        } else {
+                            Write-Host "Python is already installed."
+                        }
+                    '''
+                }
+            }
+        }
         stage('Hello') {
             steps {
                 echo 'Hello World'
