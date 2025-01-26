@@ -18,6 +18,15 @@ pipeline {
                 git 'https://github.com/raz-project/newproject.git'
             }
         }
+              stage('Execute Python Script') {
+            steps {
+                // Make sure Python is installed and available on the agent
+                script {
+                    // Assuming the Python script is in the repository
+                    sh 'python3 "C:\Users\razis\Desktop\pyton_code\jsonProject\employeeDict.py"'  
+                }
+            }
+        }
     
     }
 }
