@@ -2,19 +2,18 @@ pipeline {
     agent any
 
     stages {
-               stage('Install Python') {
+        stage('Install Python and Virtual Environment') {
             steps {
                 script {
-                    // For Windows, you can use PowerShell to install Python
-                    powershell '''
-                        # Check if Python is already installed
-                        if (-Not (Get-Command python -ErrorAction SilentlyContinue)) {
-                            Write-Host "Installing Python..."
-                            Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.9.6/python-3.9.6.exe -OutFile python-installer.exe
-                            Start-Process -FilePath python-installer.exe -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1" -NoNewWindow -Wait
-                        } else {
-                            Write-Host "Python is already installed."
-                        }
+                    // Install dependencies and Python if necessary
+                    sh '''
+                        # Update package list and install Python if not already installed
+                        sudo apt-get update
+                        sudo apt-get install -y python3 python3-pip python3-venv
+
+                        # Create and activate virtual environment
+                        python3 -m venv venv
+                        source venv/bin/activate
                     '''
                 }
             }
@@ -35,12 +34,14 @@ pipeline {
                 git 'https://github.com/raz-project/newproject.git'
             }
         }
-              stage('Execute Python Script') {
+        stage('Execute Python Script') {
             steps {
-                // Make sure Python is installed and available on the agent
                 script {
-                    // Assuming the Python script is in the repository
-                    bat 'employeeDict.py'
+                    // Activate the virtual environment and run Python script
+                    sh '''
+                        source venv/bin/activate
+                        employeeDict.py
+                    '''
                 }
             }
         }
