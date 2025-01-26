@@ -1,7 +1,23 @@
 pipeline {
     agent any
+        parameters {
+        string(name: 'CUSTOM_MESSAGE', defaultValue: 'Hello from Jenkins!', description: 'Message to be echoed')
+        string(name: 'GIT_REPO_URL', defaultValue: 'https://github.com/yourusername/your-repository.git', description: 'Git repository URL to clone')
+    }
 
     stages {
+          stage('Echo Custom Message') {
+            steps {
+                echo "${params.CUSTOM_MESSAGE}"  // Echo the custom message provided by the user
+            }
+        }
+        
+        stage('Clone Git Repository') {
+            steps {
+                git "${params.GIT_REPO_URL}"  // Clone the Git repository URL provided by the user
+            }
+        }
+    }
     stage('Install Python') {
             steps {
                 script {
