@@ -17,7 +17,7 @@ pipeline {
                 git "${params.GIT_REPO_URL}"  // Clone the Git repository URL provided by the user
             }
         }
-    }
+    
     stage('Install Python') {
             steps {
                 script {
@@ -70,4 +70,4 @@ pipeline {
         }
     
     }
-
+}
