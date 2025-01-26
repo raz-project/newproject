@@ -5,6 +5,8 @@ pipeline {
         string(name: 'GIT_REPO_URL', defaultValue: 'https://github.com/yourusername/your-repository.git', description: 'Git repository URL to clone')
 
         choice(name: 'ENVIRONMENT', choices: ['dev', 'stage', 'production'], description: 'Select the environment where the pipeline will run')    
+
+        booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Decides whether the pipeline should proceed with deployment')    
     }
 
     stages {
@@ -24,6 +26,19 @@ pipeline {
                 script {
                     // Print the selected environment
                     echo "Selected environment: ${params.ENVIRONMENT}"
+                }
+            }
+        }
+
+            stage('Deployment Decision') {
+            steps {
+                script {
+                    // Check the value of the DEPLOY parameter
+                    if (params.DEPLOY) {
+                        echo "Boolean flag is true, deployment will proceed."
+                    } else {
+                        echo "Boolean flag is false, skipping deployment."
+                    }
                 }
             }
         }
