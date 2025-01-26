@@ -40,7 +40,7 @@ pipeline {
                     // Activate the virtual environment and run Python script
                     sh '''
                         source venv/bin/activate
-                        employeeDict.py
+                        https://github.com/raz-project/newproject/blob/master/employeeDict.py
                     '''
                 }
             }
