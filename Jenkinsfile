@@ -12,7 +12,7 @@ pipeline {
             }
         }
         
-        stage('Clone Git Repository') {
+        stage('Clone Git Repositorys') {
             steps {
                 git "${params.GIT_REPO_URL}"  // Clone the Git repository URL provided by the user
             }
