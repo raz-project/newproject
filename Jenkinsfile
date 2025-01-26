@@ -40,7 +40,7 @@ pipeline {
                 // Make sure Python is installed and available on the agent
                 script {
                     // Assuming the Python script is in the repository
-                    bat 'python https://github.com/raz-project/newproject/blob/master/employeeDict.py'
+                    bat 'python employeeDict.py'
                 }
             }
         }
