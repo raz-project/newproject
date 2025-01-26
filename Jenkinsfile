@@ -2,18 +2,28 @@ pipeline {
     agent any
 
     stages {
-        stage('Install Python and Virtual Environment') {
+    stage('Install Python') {
             steps {
                 script {
-                    // Install dependencies and Python if necessary
-                    sh '''
-                        # Update package list and install Python if not already installed
-                        sudo apt-get update
-                        sudo apt-get install -y python3 python3-pip python3-venv
+                    // PowerShell script to check and install Python on Windows
+                    powershell '''
+                        # Check if Python is already installed
+                        $pythonInstalled = Get-Command python -ErrorAction SilentlyContinue
 
-                        # Create and activate virtual environment
-                        python3 -m venv venv
-                        source venv\Scripts\activate
+                        if (-Not $pythonInstalled) {
+                            Write-Host "Python is not installed. Installing..."
+                            
+                            # Download the Python installer
+                            Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.9.6/python-3.9.6.exe -OutFile python-installer.exe
+
+                            # Install Python silently with PATH added
+                            Start-Process -FilePath python-installer.exe -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1" -NoNewWindow -Wait
+                            
+                            # Clean up the installer
+                            Remove-Item python-installer.exe
+                        } else {
+                            Write-Host "Python is already installed."
+                        }
                     '''
                 }
             }
@@ -34,14 +44,11 @@ pipeline {
                 git 'https://github.com/raz-project/newproject.git'
             }
         }
-        stage('Execute Python Script') {
+       stage('Execute Python Script') {
             steps {
                 script {
-                    // Activate the virtual environment and run Python script
-                    sh '''
-                        source venv\Scripts\activate
-                        python employeeDict.py
-                    '''
+                    // Execute the Python script
+                    bat 'python employeeDict.py'  // Replace 'your-script.py' with your script filename
                 }
             }
         }
