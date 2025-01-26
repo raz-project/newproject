@@ -39,7 +39,7 @@ pipeline {
                 script {
                     // Activate the virtual environment and run Python script
                     sh '''
-                        source venv/bin/activate
+                        venv\Scripts\activate
                         python employeeDict.py
                     '''
                 }
