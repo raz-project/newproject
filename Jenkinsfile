@@ -23,7 +23,7 @@ pipeline {
                 // Make sure Python is installed and available on the agent
                 script {
                     // Assuming the Python script is in the repository
-                    sh 'python3 C:\Users\razis\Desktop\pyton_code\jsonProject\employeeDict.py'
+                    sh 'python3 employeeDict.py'
                 }
             }
         }
