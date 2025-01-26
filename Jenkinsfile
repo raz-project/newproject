@@ -13,7 +13,7 @@ pipeline {
 
                         # Create and activate virtual environment
                         python3 -m venv venv
-                        venv\Scripts\activate
+                        source venv\Scripts\activate
                     '''
                 }
             }
@@ -39,7 +39,7 @@ pipeline {
                 script {
                     // Activate the virtual environment and run Python script
                     sh '''
-                        venv\Scripts\activate
+                        source venv\Scripts\activate
                         python employeeDict.py
                     '''
                 }
