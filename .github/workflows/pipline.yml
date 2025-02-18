@@ -6,3 +6,24 @@ jobs:
     steps:
       - name: Show Docker Version
         run: docker --version
+
+  docker-steps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Docker Volume
+        run: docker volume create my_volume
+
+      - name: Run Container with Volume
+        run: docker run --name my_container -v my_volume:/data busybox sh -c "echo 'Hello, Volume!' > /data/file.txt"
+
+      - name: Remove Container
+        run: docker rm -f my_container
+
+      - name: List Docker Volumes
+        run: docker volume ls
+
+      - name: Try to Remove Volume Manually
+        run: docker volume rm my_volume || echo "Volume might be in use or already removed."
+
+      - name: Remove Unused Volumes
+        run: docker volume prune -f
